@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tibo.
+ * Copyright 2015 Thibault Debatty.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package info.debatty.java.stringsimilarity.interfaces;
-
-import info.debatty.java.stringsimilarity.interfaces.StringSimilarity;
 
 /**
  *
- * @author tibo
+ * @author Thibault Debatty
  */
 public interface NormalizedStringSimilarity extends StringSimilarity {
-    
+
 }

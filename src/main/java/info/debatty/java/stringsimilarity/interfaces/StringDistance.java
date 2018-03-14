@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tibo.
+ * Copyright 2015 Thibault Debatty.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package info.debatty.java.stringsimilarity.interfaces;
 
 import java.io.Serializable;
@@ -32,5 +31,12 @@ import java.io.Serializable;
  */
 public interface StringDistance extends Serializable {
 
-    public double distance(String s1, String s2);
+    /**
+     * Compute and return a measure of distance.
+     * Must be &gt;= 0.
+     * @param s1
+     * @param s2
+     * @return
+     */
+    double distance(String s1, String s2);
 }

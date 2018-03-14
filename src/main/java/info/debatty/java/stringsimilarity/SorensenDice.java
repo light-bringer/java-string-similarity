@@ -28,6 +28,7 @@ import info.debatty.java.stringsimilarity.interfaces.NormalizedStringDistance;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
 import net.jcip.annotations.Immutable;
 
 /**
@@ -62,8 +63,7 @@ public class SorensenDice extends ShingleBased implements
      * The strings are first converted to boolean sets of k-shingles (sequences
      * of k characters), then the similarity is computed as 2 * |A inter B| /
      * (|A| + |B|). Attention: Sorensen-Dice distance (and similarity) does not
-     * satisfy triangle inequality.
-     * Default k is 3.
+     * satisfy triangle inequality. Default k is 3.
      */
     public SorensenDice() {
         super();
@@ -71,11 +71,25 @@ public class SorensenDice extends ShingleBased implements
 
     /**
      * Similarity is computed as 2 * |A inter B| / (|A| + |B|).
-     * @param s1
-     * @param s2
-     * @return
+     *
+     * @param s1 The first string to compare.
+     * @param s2 The second string to compare.
+     * @return The computed Sorensen-Dice similarity.
+     * @throws NullPointerException if s1 or s2 is null.
      */
     public final double similarity(final String s1, final String s2) {
+        if (s1 == null) {
+            throw new NullPointerException("s1 must not be null");
+        }
+
+        if (s2 == null) {
+            throw new NullPointerException("s2 must not be null");
+        }
+
+        if (s1.equals(s2)) {
+            return 1;
+        }
+
         Map<String, Integer> profile1 = getProfile(s1);
         Map<String, Integer> profile2 = getProfile(s2);
 
@@ -94,7 +108,15 @@ public class SorensenDice extends ShingleBased implements
         return 2.0 * inter / (profile1.size() + profile2.size());
     }
 
-    public double distance(String s1, String s2) {
+    /**
+     * Returns 1 - similarity.
+     *
+     * @param s1 The first string to compare.
+     * @param s2 The second string to compare.
+     * @return 1.0 - the computed similarity
+     * @throws NullPointerException if s1 or s2 is null.
+     */
+    public final double distance(final String s1, final String s2) {
         return 1 - similarity(s1, s2);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tibo.
+ * Copyright 2015 Thibault Debatty.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,12 @@
  */
 package info.debatty.java.stringsimilarity;
 
+import net.jcip.annotations.Immutable;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.jcip.annotations.Immutable;
 
 /**
  * Abstract class for string similarities that rely on set operations (like
@@ -38,19 +39,19 @@ import net.jcip.annotations.Immutable;
  * strings or documents.
  *
  * Generally speaking, a k-gram is any sequence of k tokens. We use here the
- * definition from Leskovec, Rajaraman & Ullman (2014), "Mining of Massive
+ * definition from Leskovec, Rajaraman &amp; Ullman (2014), "Mining of Massive
  * Datasets", Cambridge University Press: Multiple subsequent spaces are
  * replaced by a single space, and a k-gram is a sequence of k characters.
  *
  * Default value of k is 3. A good rule of thumb is to imagine that there are
- * only 20 characters and estimate the number of k-shingles as 20^k. For
- * small documents like e-mails, k = 5 is a recommended value. For large
- * documents, such as research articles, k = 9 is considered a safe choice.
+ * only 20 characters and estimate the number of k-shingles as 20^k. For small
+ * documents like e-mails, k = 5 is a recommended value. For large documents,
+ * such as research articles, k = 9 is considered a safe choice.
  *
  * @author Thibault Debatty
  */
 @Immutable
-abstract class ShingleBased {
+public abstract class ShingleBased {
 
     private static final int DEFAULT_K = 3;
 
@@ -64,8 +65,9 @@ abstract class ShingleBased {
     /**
      *
      * @param k
+     * @throws IllegalArgumentException if k is &lt;= 0
      */
-    ShingleBased(final int k) {
+    public ShingleBased(final int k) {
         if (k <= 0) {
             throw new IllegalArgumentException("k should be positive!");
         }
@@ -82,20 +84,19 @@ abstract class ShingleBased {
     /**
      * Return k, the length of k-shingles (aka n-grams).
      *
-     * @return
+     * @return The length of k-shingles.
      */
-    public int getK() {
+    public final int getK() {
         return k;
     }
 
     /**
      * Compute and return the profile of s, as defined by Ukkonen "Approximate
      * string-matching with q-grams and maximal matches".
-     * https://www.cs.helsinki.fi/u/ukkonen/TCS92.pdf
-     * The profile is the number of occurrences of k-shingles, and is used to
-     * compute q-gram similarity, Jaccard index, etc.
-     * Pay attention: the memory requirement of the profile can be up to
-     * k * size of the string
+     * https://www.cs.helsinki.fi/u/ukkonen/TCS92.pdf The profile is the number
+     * of occurrences of k-shingles, and is used to compute q-gram similarity,
+     * Jaccard index, etc. Pay attention: the memory requirement of the profile
+     * can be up to k * size of the string
      *
      * @param string
      * @return the profile of this string, as an unmodifiable Map
@@ -107,7 +108,7 @@ abstract class ShingleBased {
         for (int i = 0; i < (string_no_space.length() - k + 1); i++) {
             String shingle = string_no_space.substring(i, i + k);
             Integer old = shingles.get(shingle);
-            if (old!=null) {
+            if (old != null) {
                 shingles.put(shingle, old + 1);
             } else {
                 shingles.put(shingle, 1);
@@ -116,5 +117,4 @@ abstract class ShingleBased {
 
         return Collections.unmodifiableMap(shingles);
     }
-
 }

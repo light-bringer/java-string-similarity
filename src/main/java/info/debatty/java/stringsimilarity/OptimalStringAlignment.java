@@ -46,18 +46,36 @@ public final class OptimalStringAlignment implements StringDistance {
      * substitution of a single character, or a transposition of two adjacent
      * characters) while no substring is edited more than once.
      *
-     * @param s1 the first input string
-     * @param s2 the second input string
+     * @param s1 The first string to compare.
+     * @param s2 The second string to compare.
      * @return the OSA distance
+     * @throws NullPointerException if s1 or s2 is null.
      */
-    public final double distance(final String s1, final String s2) {
+    public double distance(final String s1, final String s2) {
+        if (s1 == null) {
+            throw new NullPointerException("s1 must not be null");
+        }
+
+        if (s2 == null) {
+            throw new NullPointerException("s2 must not be null");
+        }
+
+        if (s1.equals(s2)) {
+            return 0;
+        }
+
         int n = s1.length(), m = s2.length();
-        if (n == 0) return m;
-        if (m == 0) return n;
-        
+
+        if (n == 0) {
+            return m;
+        }
+
+        if (m == 0) {
+            return n;
+        }
 
         // Create the distance matrix H[0 .. s1.length+1][0 .. s2.length+1]
-        int[][] d = new int[s1.length() + 2][s2.length() + 2];
+        int[][] d = new int[n + 2][m + 2];
 
         //initialize top row and leftmost column
         for (int i = 0; i <= n; i++) {
@@ -74,19 +92,21 @@ public final class OptimalStringAlignment implements StringDistance {
             for (int j = 1; j <= m; j++) {
 
                 //if s1[i - 1] = s2[j - 1] then cost = 0, else cost = 1
-                cost = (s1.charAt(i - 1) == s2.charAt(j - 1)) ? 0 : 1;
+                cost = 1;
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    cost = 0;
+                }
 
                 d[i][j] = min(
                         d[i - 1][j - 1] + cost, // substitution
-                        d[i][j - 1] + 1,        // insertion
-                        d[i - 1][j] + 1         // deletion
+                        d[i][j - 1] + 1, // insertion
+                        d[i - 1][j] + 1 // deletion
                 );
 
                 //transposition check
-                if (i > 1 && j > 1 
-                        && s1.charAt(i - 1) == s2.charAt(j - 2) 
-                        && s1.charAt(i - 2) == s2.charAt(j - 1)
-                    ){
+                if (i > 1 && j > 1
+                        && s1.charAt(i - 1) == s2.charAt(j - 2)
+                        && s1.charAt(i - 2) == s2.charAt(j - 1)) {
                     d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + cost);
                 }
             }

@@ -1,5 +1,6 @@
-#java-string-similarity
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.debatty/java-string-similarity/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.debatty/java-string-similarity) [![Build Status](https://travis-ci.org/tdebatty/java-string-similarity.svg?branch=master)](https://travis-ci.org/tdebatty/java-string-similarity) [![Coverage Status](https://coveralls.io/repos/tdebatty/java-string-similarity/badge.svg?branch=master&service=github)](https://coveralls.io/github/tdebatty/java-string-similarity?branch=master) [![API Documentation](http://api123.web-d.be/api123-head.svg)](http://api123.web-d.be/api/java-string-similarity/head/index.html)
+# java-string-similarity
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.debatty/java-string-similarity/badge.svg)](https://maven-badges.herokuapp.com/maven-central/info.debatty/java-string-similarity) [![Build Status](https://travis-ci.org/tdebatty/java-string-similarity.svg?branch=master)](https://travis-ci.org/tdebatty/java-string-similarity) [![Coverage Status](https://coveralls.io/repos/tdebatty/java-string-similarity/badge.svg?branch=master&service=github)](https://coveralls.io/github/tdebatty/java-string-similarity?branch=master) [![Javadocs](http://www.javadoc.io/badge/info.debatty/java-string-similarity.svg)](http://www.javadoc.io/doc/info.debatty/java-string-similarity) [![Reference Status](https://www.versioneye.com/java/info.debatty:java-string-similarity/reference_badge.svg?style=flat-square)](https://www.versioneye.com/java/info.debatty:java-string-similarity/references)
 
 A library implementing different string similarity and distance measures. A dozen of algorithms (including Levenshtein edit distance and sibblings, Jaro-Winkler, Longest Common Subsequence, cosine similarity etc.) are currently implemented. Check the summary table below for the complete list...
 
@@ -42,21 +43,21 @@ Or check the [releases](https://github.com/tdebatty/java-string-similarity/relea
 
 The main characteristics of each implemented algorithm are presented below. The "cost" column gives an estimation of the computational cost to compute the similarity between two strings of length m and n respectively.
 
-|  									|  						| Normalized? 	| Metric?	| Type    | Cost |
-|--------							|-------				|-------------	|----------	| ------  | ---- |
-| [Levenshtein](#levenshtein)		|distance 				| No 			| Yes 		|         | O(m*n) <sup>1</sup> |
-| [Normalized Levenshtein](#normalized-levenshtein)	|distance<br>similarity	| Yes 			| No 		| 	      | O(m*n) <sup>1</sup> |
-| [Weighted Levenshtein](#weighted-levenshtein)		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1</sup> |
-| [Damerau-Levenshtein](#damerau-levenshtein) <sup>3</sup> 	|distance 				| No 			| Yes 		| 	      | O(m*n) <sup>1</sup> |
-| [Optimal String Alignment](#optimal-string-alignment) <sup>3</sup> |distance | No 			| No 		| 	      | O(m*n) <sup>1</sup> |
-| [Jaro-Winkler](#jaro-winkler) 		|similarity<br>distance	| Yes  			| No 		| 	      | O(m*n) |
-| [Longest Common Subsequence](#longest-common-subsequence) 		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1,2</sup> |
-| [Metric Longest Common Subsequence](#metric-longest-common-subsequence) |distance   			| Yes 			| Yes  		| 	      | O(m*n) <sup>1,2</sup> |
-| [N-Gram](#n-gram)	 				|distance				| Yes  			| No 		| 	      | O(m*n) |
-| [Q-Gram](#q-gram) 				|distance  			 	| No  			| No 		| Profile | O(m+n) |
-| [Cosine similarity](#cosine-similarity) 				|similarity<br>distance | Yes  			| No  		| Profile | O(m+n) |
-| [Jaccard index](#jaccard-index)				|similarity<br>distance | Yes  			| Yes  		| Set	  | O(m+n) |
-| [Sorensen-Dice coefficient](#sorensen-dice-coefficient) 	|similarity<br>distance | Yes 			| No 		| Set	  | O(m+n) |
+|  									|  						| Normalized? 	| Metric?	| Type    | Cost | Typical usage |
+| --------					|-------			|-------------	|-------- | ------  | ---- | ---   |
+| [Levenshtein](#levenshtein)		|distance 				| No 			| Yes 		|         | O(m*n) <sup>1</sup> |  |
+| [Normalized Levenshtein](#normalized-levenshtein)	|distance<br>similarity	| Yes 			| No 		| 	      | O(m*n) <sup>1</sup> |  |
+| [Weighted Levenshtein](#weighted-levenshtein)		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1</sup> | OCR |
+| [Damerau-Levenshtein](#damerau-levenshtein) <sup>3</sup> 	|distance 				| No 			| Yes 		| 	      | O(m*n) <sup>1</sup> |  |
+| [Optimal String Alignment](#optimal-string-alignment) <sup>3</sup> |distance | No 			| No 		| 	      | O(m*n) <sup>1</sup> |  |
+| [Jaro-Winkler](#jaro-winkler) 		|similarity<br>distance	| Yes  			| No 		| 	      | O(m*n) | typo correction |
+| [Longest Common Subsequence](#longest-common-subsequence) 		|distance 				| No 			| No 		| 	      | O(m*n) <sup>1,2</sup> | diff utility, GIT reconciliation |
+| [Metric Longest Common Subsequence](#metric-longest-common-subsequence) |distance   			| Yes 			| Yes  		| 	      | O(m*n) <sup>1,2</sup> |  |
+| [N-Gram](#n-gram)	 				|distance				| Yes  			| No 		| 	      | O(m*n) |  |
+| [Q-Gram](#q-gram) 				|distance  			 	| No  			| No 		| Profile | O(m+n) |  |
+| [Cosine similarity](#cosine-similarity) 				|similarity<br>distance | Yes  			| No  		| Profile | O(m+n) |  |
+| [Jaccard index](#jaccard-index)				|similarity<br>distance | Yes  			| Yes  		| Set	  | O(m+n) |  |
+| [Sorensen-Dice coefficient](#sorensen-dice-coefficient) 	|similarity<br>distance | Yes 			| No 		| Set	  | O(m+n) |  |
 
 [1] In this library, Levenshtein edit distance, LCS distance and their sibblings are computed using the **dynamic programming** method, which has a cost O(m.n). For Levenshtein distance, the algorithm is sometimes called **Wagner-Fischer algorithm** ("The string-to-string correction problem", 1974). The original algorithm uses a matrix of size m x n to store the Levenshtein distance between string prefixes.
 
@@ -83,12 +84,12 @@ The MetricStringDistance interface : A few of the distances are actually metric 
 
 A lot of nearest-neighbor search algorithms and indexing structures rely on the triangle inequality. You can check "Similarity Search, The Metric Space Approach" by Zezula et al. for a survey. These cannot be used with non metric similarity measures.
 
-[Read Javadoc for a detailed description](http://api123.web-d.be/api/java-string-similarity/head/index.html)
+[Read Javadoc for a detailed description](http://www.javadoc.io/doc/info.debatty/java-string-similarity)
 
 ## Shingles (n-gram) based similarity and distance
 A few algorithms work by converting strings into sets of n-grams (sequences of n characters, also sometimes called k-shingles). The similarity or distance between the strings is then the similarity or distance between the sets.
 
-Some ot them, like jaccard, consider strings as sets of shingles, and don't consider the number of occurences of each shingle. Others, like cosine similarity, work using what is sometimes called the profile of the strings, which takes into account the number of occurences of each shingle.
+Some of them, like jaccard, consider strings as sets of shingles, and don't consider the number of occurences of each shingle. Others, like cosine similarity, work using what is sometimes called the profile of the strings, which takes into account the number of occurences of each shingle.
 
 For these algorithms, another use case is possible when dealing with large datasets:
 1. compute the set or profile representation of all the strings
@@ -387,34 +388,32 @@ public class MyApp {
 }
 ```
 
-Or, for large datasets, pre-compute the profile or set representation of all strings. The similarity can then be computed between profiles or sets:
+Or, for large datasets, pre-compute the profile of all strings. The similarity can then be computed between profiles:
 
 ```java
 import info.debatty.java.stringsimilarity.KShingling;
 import info.debatty.java.stringsimilarity.StringProfile;
 
 
+/**
+ * Example of computing cosine similarity with pre-computed profiles.
+ */
 public class PrecomputedCosine {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) throws Exception {
         String s1 = "My first string";
         String s2 = "My other string...";
-        
+
         // Let's work with sequences of 2 characters...
-        KShingling ks = new KShingling(2);
-        
-        // For cosine similarity I need the profile of strings
-        StringProfile profile1 = ks.getProfile(s1);
-        StringProfile profile2 = ks.getProfile(s2);
-        
+        Cosine cosine = new Cosine(2);
+
+        // Pre-compute the profile of strings
+        Map<String, Integer> profile1 = cosine.getProfile(s1);
+        Map<String, Integer> profile2 = cosine.getProfile(s2);
+
         // Prints 0.516185
-        System.out.println(profile1.cosineSimilarity(profile2));
-        
+        System.out.println(cosine.similarity(profile1, profile2));
     }
-    
 }
 ```
 
@@ -436,18 +435,18 @@ Distance is computed as 1 - cosine similarity.
 ### Jaccard index
 Like Q-Gram distance, the input strings are first converted into sets of n-grams (sequences of n characters, also called k-shingles), but this time the cardinality of each n-gram is not taken into account. Each input string is simply a set of n-grams. The Jaccard index is then computed as |V1 inter V2| / |V1 union V2|.
 
-Distance is computed as 1 - cosine similarity.
+Distance is computed as 1 - similarity.
 Jaccard index is a metric distance.
 
 ### Sorensen-Dice coefficient
 Similar to Jaccard index, but this time the similarity is computed as 2 * |V1 inter V2| / (|V1| + |V2|).
 
-Distance is computed as 1 - cosine similarity.
+Distance is computed as 1 - similarity.
 
 ## Experimental
 
 ### SIFT4
-SIFT4 is a general purpose string distance algorithm inspired by JaroWinkler and Longest Common Subsequence. It was developped to produce a distance measure that matches as close as possible to the human perception of string distance. Hence it takes into account elements like character substitution, character distance, longest common subsequence etc. It was developped using experimental testing, and without theoretical background.
+SIFT4 is a general purpose string distance algorithm inspired by JaroWinkler and Longest Common Subsequence. It was developed to produce a distance measure that matches as close as possible to the human perception of string distance. Hence it takes into account elements like character substitution, character distance, longest common subsequence etc. It was developed using experimental testing, and without theoretical background.
 
 ```
 import info.debatty.java.stringsimilarity.experimental.Sift4;
